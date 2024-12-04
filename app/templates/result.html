@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Validación</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Resultados de Validación</h1>
+
+    {% if is_valid_html %}
+    <p class="success">El documento HTML es válido, no contiene errores.</p>
+    {% else %}
+    <p class="error">El documento HTML contiene errores o advertencias.</p>
+    {% endif %}
+
+    {% if results %}
+    <table>
+        <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Línea</th>
+            <th>Mensaje</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.type }}</td>
+            <td>{{ result.line }}</td>
+            <td>{{ result.message }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No se encontraron errores ni advertencias.</p>
+    {% endif %}
+
+    <form action="{{ url_for('index') }}" method="get">
+        <button type="submit" class="btn">Volver al inicio</button>
+    </form>
+</div>
+</body>
+</html>
+
+
