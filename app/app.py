@@ -13,25 +13,11 @@ def index():
         url = request.form.get("url")
         html = request.form.get("html")
 
+        # Paso 1: Verificar si es una URL o código HTML válido
         if url and is_valid_url(url):
             return redirect(url_for("validate_syntax", input_type="url", value=url))
         elif html:
-            validation_results = validate_html(html=html)
-            if "error" in validation_results:
-                return render_template("index.html", error=f"Error en la validación: {validation_results['error']}")
-
-            # Mostrar todos los mensajes (errores, advertencias, info)
-            messages = validation_results.get("messages", [])
-            formatted_messages = [
-                {
-                    "type": message.get("type", "N/A").capitalize(),
-                    "line": message.get("lastLine", "N/A"),
-                    "message": message.get("message", "N/A")
-                }
-                for message in messages
-            ]
-
-            return render_template("result.html", results=formatted_messages)
+            return redirect(url_for("validate_syntax_html"))
         else:
             return render_template("index.html", error="Debe proporcionar una URL o código HTML válido.")
 
@@ -45,8 +31,10 @@ def validate_syntax(input_type, value):
     if "error" in validation_results:
         return render_template("index.html", error=f"Error en la validación: {validation_results['error']}")
 
-    # Mostrar todos los mensajes (errores, advertencias, info)
+    # Procesar los mensajes para determinar validez
     messages = validation_results.get("messages", [])
+    is_valid_html = all(message["type"] == "info" for message in messages)
+
     formatted_messages = [
         {
             "type": message.get("type", "N/A").capitalize(),
@@ -56,7 +44,7 @@ def validate_syntax(input_type, value):
         for message in messages
     ]
 
-    return render_template("result.html", results=formatted_messages)
+    return render_template("result.html", results=formatted_messages, is_valid_html=is_valid_html)
 
 
 @app.route("/validate-syntax-html", methods=["POST"])
@@ -67,8 +55,10 @@ def validate_syntax_html():
     if "error" in validation_results:
         return render_template("index.html", error=f"Error en la validación: {validation_results['error']}")
 
-    # Mostrar todos los mensajes (errores, advertencias, info)
+    # Procesar los mensajes para determinar validez
     messages = validation_results.get("messages", [])
+    is_valid_html = all(message["type"] == "info" for message in messages)
+
     formatted_messages = [
         {
             "type": message.get("type", "N/A").capitalize(),
@@ -78,7 +68,7 @@ def validate_syntax_html():
         for message in messages
     ]
 
-    return render_template("result.html", results=formatted_messages)
+    return render_template("result.html", results=formatted_messages, is_valid_html=is_valid_html)
 
 
 def validate_html(url=None, html=None):
