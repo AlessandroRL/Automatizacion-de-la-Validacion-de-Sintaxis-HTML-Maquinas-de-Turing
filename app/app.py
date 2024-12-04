@@ -1,3 +1,5 @@
+import os
+
 import requests
 from flask import Flask, request, render_template, redirect, url_for
 from waitress import serve
@@ -39,7 +41,6 @@ def index():
     return render_template("index.html")
 
 
-
 @app.route("/validate-syntax/<input_type>/<path:value>", methods=["GET"])
 def validate_syntax(input_type, value):
     validation_results = validate_html(url=value if input_type == "url" else None)
@@ -60,17 +61,7 @@ def validate_syntax(input_type, value):
     ]
 
     # Procesar los mensajes para determinar validez
-    messages = validation_results.get("messages", [])
     is_valid_html = all(message["type"] == "info" for message in messages)
-
-    formatted_messages = [
-        {
-            "type": message.get("type", "N/A").capitalize(),
-            "line": message.get("lastLine", "N/A"),
-            "message": message.get("message", "N/A")
-        }
-        for message in messages
-    ]
 
     return render_template("result.html", results=formatted_messages, is_valid_html=is_valid_html)
 
@@ -96,17 +87,7 @@ def validate_syntax_html():
     ]
 
     # Procesar los mensajes para determinar validez
-    messages = validation_results.get("messages", [])
     is_valid_html = all(message["type"] == "info" for message in messages)
-
-    formatted_messages = [
-        {
-            "type": message.get("type", "N/A").capitalize(),
-            "line": message.get("lastLine", "N/A"),
-            "message": message.get("message", "N/A")
-        }
-        for message in messages
-    ]
 
     return render_template("result.html", results=formatted_messages, is_valid_html=is_valid_html)
 
@@ -132,7 +113,4 @@ def validate_html(url=None, html=None):
         return {"error": str(e)}
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-if __name__ == "__main__":
-    serve(app, host='0.0.0.0', port=5000)
+    serve(app, host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
