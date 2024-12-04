@@ -278,3 +278,53 @@ button[type="submit"] {
 </div>
 </body>
 </html>
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="url"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical; /* Permitir redimensionar solo en vertical */
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.info-box {
+    background-color: #f9f9f9;
+    border: 2px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+h2 {
+    margin-top: 20px;
+    color: #333;
+    font-size: 20px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}

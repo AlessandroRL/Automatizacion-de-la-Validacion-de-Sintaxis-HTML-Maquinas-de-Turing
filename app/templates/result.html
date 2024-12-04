@@ -17,6 +17,7 @@
     {% endif %}
 
     {% if results %}
+    <h2>Advertencias</h2>
     <table>
         <thead>
         <tr>
@@ -39,11 +40,10 @@
     <p>No se encontraron errores ni advertencias.</p>
     {% endif %}
 
+    <!-- Botón para volver al inicio -->
     <form action="{{ url_for('index') }}" method="get">
         <button type="submit" class="btn">Volver al inicio</button>
     </form>
 </div>
 </body>
 </html>
-
-

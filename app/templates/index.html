@@ -12,9 +12,13 @@
     <form method="POST" action="/">
         <div class="form-group">
             <label for="url">URL a validar:</label>
-            <input type="url" id="url" name="url" placeholder="https://example.com" required>
+            <input type="url" id="url" name="url" placeholder="https://example.com">
         </div>
-        <button type="submit" class="btn">Validar URL</button>
+        <div class="form-group">
+            <label for="html">Código HTML a validar:</label>
+            <textarea id="html" name="html" rows="10" placeholder="<html>...</html>"></textarea>
+        </div>
+        <button type="submit" class="btn">Validar</button>
     </form>
     <div class="info info-box">
         <p><strong>Bienvenido a nuestra herramienta de validación HTML</strong></p>
